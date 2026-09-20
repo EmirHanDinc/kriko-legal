@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Kriko</title>
+<style>
+  :root {
+    --accent: #E0293D;
+    --accent-soft: #FCE6E8;
+    --ink: #1A1A1E;
+    --ink-secondary: #5B5B63;
+    --ink-tertiary: #9A9AA2;
+    --bg: #FAFAFA;
+    --surface: #FFFFFF;
+    --border: #E7E7EA;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --accent: #FF5A6E;
+      --accent-soft: #3A1418;
+      --ink: #F2F2F4;
+      --ink-secondary: #B8B8C0;
+      --ink-tertiary: #7A7A82;
+      --bg: #141416;
+      --surface: #1C1C1F;
+      --border: #2C2C30;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    line-height: 1.6;
+    padding: 0 20px 64px;
+  }
+  .wrap { max-width: 640px; margin: 0 auto; }
+  .brand { display: flex; align-items: center; gap: 10px; padding: 28px 0 8px; }
+  .brand .mark { width: 30px; height: 30px; border-radius: 8px; background: var(--accent); flex: none; }
+  .brand .name { font-weight: 700; font-size: 15px; color: var(--ink-secondary); letter-spacing: 0.02em; }
+  h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.01em; margin: 18px 0 4px; text-wrap: balance; }
+  p.meta { color: var(--ink-tertiary); font-size: 13px; margin: 0 0 32px; }
+  h2 { font-size: 17px; font-weight: 700; color: var(--accent); margin: 34px 0 10px; }
+  p { font-size: 15px; color: var(--ink); margin: 0 0 4px; }
+  .lang-switch { display: flex; gap: 6px; padding: 4px 0 24px; flex-wrap: wrap; }
+  .lang-switch a {
+    font-size: 12px; font-weight: 600; color: var(--ink-secondary); text-decoration: none;
+    padding: 5px 10px; border-radius: 100px; border: 1px solid var(--border); cursor: pointer;
+  }
+  .lang-switch a.active { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="mark"></div>
+      <div class="name">KRIKO</div>
+    </div>
+    <div class="lang-switch" id="langSwitch"></div>
+    <div id="content"></div>
+  </div>
+
+<script>
+(function () {
+  // Content is embedded directly — this page no longer depends on
+  // Supabase or any network call to render. Supabase's only remaining
+  // role for legal pages is storing *which URL* the app opens
+  // (legal_documents.slug -> url), not what that page says.
+  var CONTENT = {
+  "privacy-policy": {
+    "en": {
+      "title": "Privacy Policy",
+      "html": "<h1>Privacy Policy</h1>\n<p class=\"meta\">Last updated: September 2026</p>\n<h2>What We Collect</h2>\n<p>Account info you provide (name, email, phone, profile photo); vehicle details you add (make, model, plate, VIN, mileage, photos); fuel, maintenance, expense and insurance records you log, including receipt photos; and device push tokens used to send reminders.</p>\n<h2>How We Use It</h2>\n<p>To run the core features of the app: showing your vehicles and spending, sending maintenance and document-expiry reminders, and auto-filling forms when you scan a receipt. We don&#x27;t sell your data or use it for advertising.</p>\n<h2>AI Receipt Scanning</h2>\n<p>When you scan a receipt, the photo is sent to Anthropic&#x27;s API to extract text (vendor, date, amount). It&#x27;s used only to fill the form in front of you and isn&#x27;t used to train any model.</p>\n<h2>Third Parties We Use</h2>\n<p>Supabase hosts our database, authentication and file storage. Apple handles Sign in with Apple, push notifications and in-app purchases — we never see your payment details. Anthropic processes receipt photos as described above.</p>\n<h2>Location</h2>\n<p>Kriko does not access or collect your device location.</p>\n<h2>Data Retention &amp; Deletion</h2>\n<p>Your data is kept as long as your account is active. You can permanently delete your account and all associated data at any time from Settings → Delete Account.</p>\n<h2>Your Rights</h2>\n<p>You can access, correct or export your data by contacting us, and delete it at any time in-app. If you&#x27;re in a region with statutory data-protection rights (such as GDPR or Turkey&#x27;s KVKK), those rights apply to you in full.</p>\n<h2>Contact</h2>\n<p>Questions about this policy? Reach us at the support address listed on our App Store page.</p>"
+    },
+    "tr": {
+      "title": "Gizlilik Politikası",
+      "html": "<h1>Gizlilik Politikası</h1>\n<p class=\"meta\">Son güncelleme: Eylül 2026</p>\n<h2>Ne Topluyoruz</h2>\n<p>Sağladığınız hesap bilgileri (ad, e-posta, telefon, profil fotoğrafı); eklediğiniz araç bilgileri (marka, model, plaka, şasi numarası, kilometre, fotoğraflar); kaydettiğiniz yakıt, bakım, gider ve sigorta kayıtları (fiş fotoğrafları dahil); ve hatırlatıcı göndermek için kullanılan cihaz bildirim jetonları.</p>\n<h2>Nasıl Kullanıyoruz</h2>\n<p>Uygulamanın temel özelliklerini çalıştırmak için: araçlarınızı ve harcamalarınızı göstermek, bakım ve belge sona erme hatırlatıcıları göndermek ve bir fiş taradığınızda formları otomatik doldurmak. Verilerinizi satmıyor veya reklam amaçlı kullanmıyoruz.</p>\n<h2>Yapay Zeka ile Fiş Tarama</h2>\n<p>Bir fiş taradığınızda, fotoğraf metni (satıcı, tarih, tutar) çıkarmak için Anthropic&#x27;in API&#x27;sine gönderilir. Yalnızca önünüzdeki formu doldurmak için kullanılır, hiçbir modeli eğitmek için kullanılmaz.</p>\n<h2>Kullandığımız Üçüncü Taraflar</h2>\n<p>Supabase veritabanımızı, kimlik doğrulamamızı ve dosya depolamamızı barındırır. Apple, Apple ile Giriş Yap, anlık bildirimler ve uygulama içi satın almaları yönetir — ödeme bilgilerinizi asla görmeyiz. Anthropic, fiş fotoğraflarını yukarıda açıklandığı şekilde işler.</p>\n<h2>Konum</h2>\n<p>Kriko, cihazınızın konumuna erişmez veya bu bilgiyi toplamaz.</p>\n<h2>Veri Saklama ve Silme</h2>\n<p>Verileriniz hesabınız aktif olduğu sürece saklanır. Hesabınızı ve ilişkili tüm verilerinizi istediğiniz zaman Ayarlar → Hesabı Sil bölümünden kalıcı olarak silebilirsiniz.</p>\n<h2>Haklarınız</h2>\n<p>Bizimle iletişime geçerek verilerinize erişebilir, onları düzeltebilir veya dışa aktarabilir, uygulama içinden istediğiniz zaman silebilirsiniz. GDPR veya Türkiye&#x27;nin KVKK&#x27;sı gibi yasal veri koruma haklarının geçerli olduğu bir bölgedeyseniz, bu haklar sizin için tam olarak geçerlidir.</p>\n<h2>İletişim</h2>\n<p>Bu politika hakkında sorularınız mı var? App Store sayfamızda listelenen destek adresinden bize ulaşın.</p>"
+    },
+    "de": {
+      "title": "Datenschutzrichtlinie",
+      "html": "<h1>Datenschutzrichtlinie</h1>\n<p class=\"meta\">Zuletzt aktualisiert: September 2026</p>\n<h2>Was wir erfassen</h2>\n<p>Von dir angegebene Kontoinformationen (Name, E-Mail, Telefon, Profilfoto); von dir hinzugefügte Fahrzeugdaten (Marke, Modell, Kennzeichen, Fahrgestellnummer, Kilometerstand, Fotos); von dir erfasste Kraftstoff-, Wartungs-, Ausgaben- und Versicherungsdaten inklusive Belegfotos; sowie Push-Token des Geräts zum Senden von Erinnerungen.</p>\n<h2>Wie wir es verwenden</h2>\n<p>Um die Kernfunktionen der App auszuführen: deine Fahrzeuge und Ausgaben anzuzeigen, Wartungs- und Ablauferinnerungen zu senden und Formulare beim Scannen eines Belegs automatisch auszufüllen. Wir verkaufen deine Daten nicht und nutzen sie nicht für Werbung.</p>\n<h2>KI-Belegscan</h2>\n<p>Wenn du einen Beleg scannst, wird das Foto zur Textextraktion (Anbieter, Datum, Betrag) an die API von Anthropic gesendet. Es wird nur verwendet, um das vor dir stehende Formular auszufüllen, und nicht zum Training eines Modells.</p>\n<h2>Drittanbieter, die wir nutzen</h2>\n<p>Supabase hostet unsere Datenbank, Authentifizierung und Dateispeicherung. Apple verwaltet Sign in with Apple, Push-Benachrichtigungen und In-App-Käufe — wir sehen deine Zahlungsdaten nie. Anthropic verarbeitet Belegfotos wie oben beschrieben.</p>\n<h2>Standort</h2>\n<p>Kriko greift nicht auf den Standort deines Geräts zu und erfasst ihn nicht.</p>\n<h2>Datenspeicherung &amp; Löschung</h2>\n<p>Deine Daten werden gespeichert, solange dein Konto aktiv ist. Du kannst dein Konto und alle zugehörigen Daten jederzeit unter Einstellungen → Konto löschen dauerhaft entfernen.</p>\n<h2>Deine Rechte</h2>\n<p>Du kannst deine Daten einsehen, korrigieren oder exportieren lassen, indem du uns kontaktierst, und sie jederzeit in der App löschen. Wenn du dich in einer Region mit gesetzlichen Datenschutzrechten befindest (z. B. DSGVO oder das türkische KVKK), gelten diese Rechte uneingeschränkt für dich.</p>\n<h2>Kontakt</h2>\n<p>Fragen zu dieser Richtlinie? Kontaktiere uns über die auf unserer App-Store-Seite angegebene Support-Adresse.</p>"
+    },
+    "fr": {
+      "title": "Politique de confidentialité",
+      "html": "<h1>Politique de confidentialité</h1>\n<p class=\"meta\">Dernière mise à jour : septembre 2026</p>\n<h2>Ce que nous collectons</h2>\n<p>Les informations de compte que vous fournissez (nom, e-mail, téléphone, photo de profil) ; les informations de véhicule que vous ajoutez (marque, modèle, plaque, numéro de châssis, kilométrage, photos) ; les données de carburant, d&#x27;entretien, de dépenses et d&#x27;assurance que vous enregistrez, y compris les photos de reçus ; et les jetons de notification push de l&#x27;appareil utilisés pour envoyer des rappels.</p>\n<h2>Comment nous l&#x27;utilisons</h2>\n<p>Pour faire fonctionner les fonctionnalités principales de l&#x27;application : afficher vos véhicules et vos dépenses, envoyer des rappels d&#x27;entretien et d&#x27;expiration de documents, et remplir automatiquement les formulaires lorsque vous scannez un reçu. Nous ne vendons pas vos données et ne les utilisons pas à des fins publicitaires.</p>\n<h2>Numérisation IA des reçus</h2>\n<p>Lorsque vous numérisez un reçu, la photo est envoyée à l&#x27;API d&#x27;Anthropic pour en extraire le texte (fournisseur, date, montant). Elle sert uniquement à remplir le formulaire devant vous et n&#x27;est jamais utilisée pour entraîner un modèle.</p>\n<h2>Tiers que nous utilisons</h2>\n<p>Supabase héberge notre base de données, notre authentification et notre stockage de fichiers. Apple gère la connexion avec Apple, les notifications push et les achats intégrés — nous ne voyons jamais vos informations de paiement. Anthropic traite les photos de reçus comme décrit ci-dessus.</p>\n<h2>Localisation</h2>\n<p>Kriko n&#x27;accède pas à la localisation de votre appareil et ne la collecte pas.</p>\n<h2>Conservation et suppression des données</h2>\n<p>Vos données sont conservées tant que votre compte est actif. Vous pouvez supprimer définitivement votre compte et toutes les données associées à tout moment depuis Réglages → Supprimer le compte.</p>\n<h2>Vos droits</h2>\n<p>Vous pouvez accéder à vos données, les corriger ou les exporter en nous contactant, et les supprimer à tout moment dans l&#x27;application. Si vous résidez dans une région disposant de droits légaux de protection des données (comme le RGPD ou le KVKK turc), ces droits s&#x27;appliquent pleinement à vous.</p>\n<h2>Contact</h2>\n<p>Des questions sur cette politique ? Contactez-nous à l&#x27;adresse d&#x27;assistance indiquée sur notre page App Store.</p>"
+    }
+  },
+  "terms-of-service": {
+    "en": {
+      "title": "Terms of Service",
+      "html": "<h1>Terms of Service</h1>\n<p class=\"meta\">Last updated: September 2026</p>\n<h2>Your Account</h2>\n<p>You&#x27;re responsible for the accuracy of the information you enter and for keeping your account credentials secure. You must be able to form a binding contract to use Kriko.</p>\n<h2>Free Plan</h2>\n<p>The free plan includes up to 3 vehicles and 5 AI receipt scans per month. Additional vehicle slots can be purchased individually, or unlocked without limit through Kriko Pro.</p>\n<h2>Kriko Pro Subscription</h2>\n<p>Kriko Pro is billed monthly or annually through your Apple ID and renews automatically unless cancelled at least 24 hours before the end of the current period. Manage or cancel your subscription in your iPhone&#x27;s Settings → your name → Subscriptions. Prices are as displayed at purchase and may vary by region.</p>\n<h2>One-Time Purchases</h2>\n<p>Extra vehicle slots are one-time purchases processed by Apple. All purchases are subject to Apple&#x27;s App Store terms and refund policy.</p>\n<h2>Acceptable Use</h2>\n<p>Don&#x27;t use Kriko to store data you don&#x27;t have the right to store, attempt to disrupt the service, or reverse-engineer the app.</p>\n<h2>No Warranty</h2>\n<p>Kriko is provided &quot;as is.&quot; Reminders, AI-scanned data and cost estimates are aids, not guarantees — always verify against your actual documents and vehicle before making decisions.</p>\n<h2>Limitation of Liability</h2>\n<p>To the extent permitted by law, Kriko isn&#x27;t liable for indirect or consequential damages arising from your use of the app, including missed reminders or inaccurate AI-extracted data.</p>\n<h2>Termination</h2>\n<p>You can delete your account at any time in Settings. We may suspend accounts that violate these terms.</p>\n<h2>Contact</h2>\n<p>Questions about these terms? Reach us at the support address listed on our App Store page.</p>"
+    },
+    "tr": {
+      "title": "Kullanım Koşulları",
+      "html": "<h1>Kullanım Koşulları</h1>\n<p class=\"meta\">Son güncelleme: Eylül 2026</p>\n<h2>Hesabınız</h2>\n<p>Girdiğiniz bilgilerin doğruluğundan ve hesap kimlik bilgilerinizin güvenliğini sağlamaktan siz sorumlusunuz. Kriko&#x27;yu kullanmak için bağlayıcı bir sözleşme kurabilecek durumda olmalısınız.</p>\n<h2>Ücretsiz Plan</h2>\n<p>Ücretsiz plan, 3 araca kadar ve ayda 5 yapay zeka fiş taramasına kadar içerir. Ek araç hakları tek tek satın alınabilir veya Kriko Pro ile sınırsız hale getirilebilir.</p>\n<h2>Kriko Pro Aboneliği</h2>\n<p>Kriko Pro, Apple ID&#x27;niz üzerinden aylık veya yıllık olarak faturalandırılır ve mevcut dönemin bitiminden en az 24 saat önce iptal edilmediği sürece otomatik olarak yenilenir. Aboneliğinizi iPhone&#x27;unuzun Ayarlar → adınız → Abonelikler bölümünden yönetebilir veya iptal edebilirsiniz. Fiyatlar satın alma anında gösterildiği gibidir ve bölgeye göre değişebilir.</p>\n<h2>Tek Seferlik Satın Almalar</h2>\n<p>Ek araç hakları, Apple tarafından işlenen tek seferlik satın almalardır. Tüm satın almalar Apple&#x27;ın App Store koşullarına ve iade politikasına tabidir.</p>\n<h2>Kabul Edilebilir Kullanım</h2>\n<p>Kriko&#x27;yu saklama hakkınız olmayan verileri saklamak, hizmeti aksatmaya çalışmak veya uygulamayı tersine mühendislikle çözmek için kullanmayın.</p>\n<h2>Garanti Yoktur</h2>\n<p>Kriko &quot;olduğu gibi&quot; sunulur. Hatırlatıcılar, yapay zeka ile taranan veriler ve maliyet tahminleri birer yardımcı araçtır, garanti değildir — karar vermeden önce her zaman gerçek belgelerinizi ve aracınızı kontrol edin.</p>\n<h2>Sorumluluk Sınırlaması</h2>\n<p>Yasaların izin verdiği ölçüde, Kriko; kaçırılan hatırlatıcılar veya hatalı yapay zeka çıktıları dahil olmak üzere, uygulamayı kullanmanızdan kaynaklanan dolaylı veya sonuç niteliğindeki zararlardan sorumlu değildir.</p>\n<h2>Fesih</h2>\n<p>Hesabınızı istediğiniz zaman Ayarlar&#x27;dan silebilirsiniz. Bu koşulları ihlal eden hesapları askıya alabiliriz.</p>\n<h2>İletişim</h2>\n<p>Bu koşullar hakkında sorularınız mı var? App Store sayfamızda listelenen destek adresinden bize ulaşın.</p>"
+    },
+    "de": {
+      "title": "Nutzungsbedingungen",
+      "html": "<h1>Nutzungsbedingungen</h1>\n<p class=\"meta\">Zuletzt aktualisiert: September 2026</p>\n<h2>Dein Konto</h2>\n<p>Du bist für die Richtigkeit der von dir eingegebenen Informationen und für die Sicherheit deiner Kontodaten verantwortlich. Du musst in der Lage sein, einen verbindlichen Vertrag einzugehen, um Kriko zu nutzen.</p>\n<h2>Kostenloser Plan</h2>\n<p>Der kostenlose Plan umfasst bis zu 3 Fahrzeuge und 5 KI-Belegscans pro Monat. Zusätzliche Fahrzeugplätze können einzeln erworben oder über Kriko Pro unbegrenzt freigeschaltet werden.</p>\n<h2>Kriko-Pro-Abonnement</h2>\n<p>Kriko Pro wird monatlich oder jährlich über deine Apple-ID abgerechnet und verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ende des aktuellen Zeitraums gekündigt wird. Verwalte oder kündige dein Abonnement unter Einstellungen → dein Name → Abonnements auf deinem iPhone. Preise entsprechen der Anzeige beim Kauf und können je nach Region variieren.</p>\n<h2>Einmalige Käufe</h2>\n<p>Zusätzliche Fahrzeugplätze sind einmalige, von Apple abgewickelte Käufe. Alle Käufe unterliegen den App-Store-Bedingungen und der Rückerstattungsrichtlinie von Apple.</p>\n<h2>Zulässige Nutzung</h2>\n<p>Nutze Kriko nicht, um Daten zu speichern, an denen du keine Rechte hast, den Dienst zu stören oder die App zurückzuentwickeln.</p>\n<h2>Keine Gewährleistung</h2>\n<p>Kriko wird &quot;wie besehen&quot; bereitgestellt. Erinnerungen, KI-gescannte Daten und Kostenschätzungen sind Hilfsmittel, keine Garantien — überprüfe vor einer Entscheidung immer deine tatsächlichen Unterlagen und dein Fahrzeug.</p>\n<h2>Haftungsbeschränkung</h2>\n<p>Soweit gesetzlich zulässig, haftet Kriko nicht für indirekte oder Folgeschäden, die sich aus der Nutzung der App ergeben, einschließlich verpasster Erinnerungen oder ungenauer KI-extrahierter Daten.</p>\n<h2>Kündigung</h2>\n<p>Du kannst dein Konto jederzeit in den Einstellungen löschen. Wir können Konten sperren, die gegen diese Bedingungen verstoßen.</p>\n<h2>Kontakt</h2>\n<p>Fragen zu diesen Bedingungen? Kontaktiere uns über die auf unserer App-Store-Seite angegebene Support-Adresse.</p>"
+    },
+    "fr": {
+      "title": "Conditions d'utilisation",
+      "html": "<h1>Conditions d&#x27;utilisation</h1>\n<p class=\"meta\">Dernière mise à jour : septembre 2026</p>\n<h2>Votre compte</h2>\n<p>Vous êtes responsable de l&#x27;exactitude des informations que vous saisissez et de la sécurité de vos identifiants de compte. Vous devez être en mesure de conclure un contrat contraignant pour utiliser Kriko.</p>\n<h2>Offre gratuite</h2>\n<p>L&#x27;offre gratuite comprend jusqu&#x27;à 3 véhicules et 5 numérisations de reçus par IA par mois. Des emplacements de véhicules supplémentaires peuvent être achetés individuellement, ou débloqués sans limite avec Kriko Pro.</p>\n<h2>Abonnement Kriko Pro</h2>\n<p>Kriko Pro est facturé mensuellement ou annuellement via votre identifiant Apple et se renouvelle automatiquement sauf annulation au moins 24 heures avant la fin de la période en cours. Gérez ou annulez votre abonnement dans Réglages → votre nom → Abonnements sur votre iPhone. Les prix sont ceux affichés au moment de l&#x27;achat et peuvent varier selon la région.</p>\n<h2>Achats ponctuels</h2>\n<p>Les emplacements de véhicules supplémentaires sont des achats ponctuels traités par Apple. Tous les achats sont soumis aux conditions de l&#x27;App Store et à la politique de remboursement d&#x27;Apple.</p>\n<h2>Utilisation acceptable</h2>\n<p>N&#x27;utilisez pas Kriko pour stocker des données sur lesquelles vous n&#x27;avez aucun droit, tenter de perturber le service ou décompiler l&#x27;application.</p>\n<h2>Aucune garantie</h2>\n<p>Kriko est fourni &quot;tel quel&quot;. Les rappels, les données extraites par IA et les estimations de coûts sont des aides, pas des garanties — vérifiez toujours vos documents et votre véhicule réels avant de prendre une décision.</p>\n<h2>Limitation de responsabilité</h2>\n<p>Dans la mesure permise par la loi, Kriko n&#x27;est pas responsable des dommages indirects ou consécutifs résultant de votre utilisation de l&#x27;application, y compris les rappels manqués ou les données extraites par IA inexactes.</p>\n<h2>Résiliation</h2>\n<p>Vous pouvez supprimer votre compte à tout moment dans les Réglages. Nous pouvons suspendre les comptes qui enfreignent ces conditions.</p>\n<h2>Contact</h2>\n<p>Des questions sur ces conditions ? Contactez-nous à l&#x27;adresse d&#x27;assistance indiquée sur notre page App Store.</p>"
+    }
+  }
+};
+  var SUPPORTED_LOCALES = ["en", "tr", "de", "fr"];
+  var DOCS = {"privacy-policy": true, "terms-of-service": true};
+
+  function params() {
+    var p = new URLSearchParams(window.location.search);
+    var doc = p.get("doc");
+    if (!DOCS[doc]) doc = "privacy-policy";
+    var locale = p.get("locale");
+    if (SUPPORTED_LOCALES.indexOf(locale) === -1) locale = "en";
+    return { doc: doc, locale: locale };
+  }
+
+  function renderLangSwitch(current) {
+    var el = document.getElementById("langSwitch");
+    el.innerHTML = "";
+    var labels = { en: "English", tr: "Türkçe", de: "Deutsch", fr: "Français" };
+    SUPPORTED_LOCALES.forEach(function (loc) {
+      var a = document.createElement("a");
+      a.textContent = labels[loc];
+      var p = new URLSearchParams(window.location.search);
+      p.set("locale", loc);
+      a.href = "?" + p.toString();
+      if (loc === current.locale) a.className = "active";
+      el.appendChild(a);
+    });
+  }
+
+  var current = params();
+  renderLangSwitch(current);
+  var entry = CONTENT[current.doc][current.locale];
+  document.title = "Kriko — " + entry.title;
+  document.getElementById("content").innerHTML = entry.html;
+})();
+</script>
+</body>
+</html>
