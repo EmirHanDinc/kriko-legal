@@ -4,6 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Kriko</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
 <style>
   :root {
     --accent: #E0293D;
@@ -37,13 +39,19 @@
   }
   .wrap { max-width: 640px; margin: 0 auto; }
   .brand { display: flex; align-items: center; gap: 10px; padding: 28px 0 8px; }
-  .brand .mark { width: 30px; height: 30px; border-radius: 8px; background: var(--accent); flex: none; }
+  .brand .mark { width: 30px; height: 30px; border-radius: 8px; flex: none; display: block; }
   .brand .name { font-weight: 700; font-size: 15px; color: var(--ink-secondary); letter-spacing: 0.02em; }
   h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.01em; margin: 18px 0 4px; text-wrap: balance; }
-  p.meta { color: var(--ink-tertiary); font-size: 13px; margin: 0 0 32px; }
+  p.meta { color: var(--ink-tertiary); font-size: 13px; margin: 0 0 24px; }
   h2 { font-size: 17px; font-weight: 700; color: var(--accent); margin: 34px 0 10px; }
   p { font-size: 15px; color: var(--ink); margin: 0 0 4px; }
-  .lang-switch { display: flex; gap: 6px; padding: 4px 0 24px; flex-wrap: wrap; }
+  .doc-switch { display: flex; gap: 8px; padding: 4px 0; }
+  .doc-switch a {
+    font-size: 14px; font-weight: 700; color: var(--ink-secondary); text-decoration: none;
+    padding: 8px 4px; border-bottom: 2px solid transparent; cursor: pointer;
+  }
+  .doc-switch a.active { color: var(--accent); border-color: var(--accent); }
+  .lang-switch { display: flex; gap: 6px; padding: 4px 0 24px; flex-wrap: wrap; border-top: 1px solid var(--border); margin-top: 4px; padding-top: 16px; }
   .lang-switch a {
     font-size: 12px; font-weight: 600; color: var(--ink-secondary); text-decoration: none;
     padding: 5px 10px; border-radius: 100px; border: 1px solid var(--border); cursor: pointer;
@@ -54,11 +62,12 @@
 <body>
   <div class="wrap">
     <div class="brand">
-      <div class="mark"></div>
+      <img class="mark" src="apple-touch-icon.png" alt="" />
       <div class="name">KRIKO</div>
     </div>
-    <div class="lang-switch" id="langSwitch"></div>
+    <div class="doc-switch" id="docSwitch"></div>
     <div id="content"></div>
+    <div class="lang-switch" id="langSwitch"></div>
   </div>
 
 <script>
@@ -132,7 +141,29 @@
     });
   }
 
+  function renderDocSwitch(current) {
+    var el = document.getElementById("docSwitch");
+    el.innerHTML = "";
+    var docLabels = {
+      en: { "privacy-policy": "Privacy Policy", "terms-of-service": "Terms of Service" },
+      tr: { "privacy-policy": "Gizlilik Politikası", "terms-of-service": "Kullanım Koşulları" },
+      de: { "privacy-policy": "Datenschutz", "terms-of-service": "Nutzungsbedingungen" },
+      fr: { "privacy-policy": "Confidentialité", "terms-of-service": "Conditions d'utilisation" }
+    };
+    var labels = docLabels[current.locale] || docLabels.en;
+    Object.keys(DOCS).forEach(function (doc) {
+      var a = document.createElement("a");
+      a.textContent = labels[doc];
+      var p = new URLSearchParams(window.location.search);
+      p.set("doc", doc);
+      a.href = "?" + p.toString();
+      if (doc === current.doc) a.className = "active";
+      el.appendChild(a);
+    });
+  }
+
   var current = params();
+  renderDocSwitch(current);
   renderLangSwitch(current);
   var entry = CONTENT[current.doc][current.locale];
   document.title = "Kriko — " + entry.title;
